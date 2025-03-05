@@ -16,4 +16,5 @@
     <string name="enter_message">Enter Message</string>
     <string name="show_less">Show Less</string>
     <string name="show_more">Show More</string>
+    <string name="empty_list">No Donations Yet - Go make a Donation!</string>
 </resources>
