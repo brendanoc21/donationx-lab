@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.protolite.well.known.types)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

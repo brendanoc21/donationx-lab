@@ -41,7 +41,6 @@ fun ScreenDonate(modifier: Modifier = Modifier,
     Column {
         Column(
             modifier = modifier.padding(
-                top = 48.dp,
                 start = 24.dp,
                 end = 24.dp
             ),
@@ -62,7 +61,7 @@ fun ScreenDonate(modifier: Modifier = Modifier,
                 )
             }
             ProgressBar(
-                modifier = modifier,
+                modifier = modifier.padding(top = 80.dp,bottom = 24.dp),
                 totalDonated = totalDonated)
             MessageInput(
                 modifier = modifier,
