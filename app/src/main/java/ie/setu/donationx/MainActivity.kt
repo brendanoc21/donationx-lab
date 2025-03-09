@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ie.setu.donationx.data.DonationModel
 import ie.setu.donationx.navigation.AppDestination
 import ie.setu.donationx.navigation.Donate
@@ -45,10 +46,9 @@ import ie.setu.donationx.navigation.allDestinations
 import ie.setu.donationx.ui.components.general.BottomAppBarProvider
 import ie.setu.donationx.ui.components.general.DropDownMenu
 import ie.setu.donationx.ui.components.general.MenuItem
-import ie.setu.donationx.ui.screens.ScreenDonate
-import ie.setu.donationx.ui.screens.ScreenReport
 import ie.setu.donationx.ui.theme.DonationXTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,15 +91,14 @@ fun DonationXApp(modifier: Modifier = Modifier,
             NavHostProvider(
                 modifier = modifier,
                 navController = navController,
-                paddingValues = paddingValues,
-                donations = donations)
+                paddingValues = paddingValues
+            )
         },
         bottomBar = {
             BottomAppBarProvider(navController,
                 currentScreen = currentBottomScreen,)
         }
     )
-
 
 }
 

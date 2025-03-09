@@ -12,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -29,9 +30,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ie.setu.donationx.R
 import ie.setu.donationx.data.DonationModel
 import ie.setu.donationx.data.fakeDonations
+import ie.setu.donationx.ui.screens.donate.DonateViewModel
+import ie.setu.donationx.ui.screens.report.ReportViewModel
 import ie.setu.donationx.ui.theme.DonationXTheme
 import timber.log.Timber
 
@@ -39,9 +43,11 @@ import timber.log.Timber
 fun DonateButton(
     modifier: Modifier = Modifier,
     donation: DonationModel,
-    donations: SnapshotStateList<DonationModel>,
-    onTotalDonatedChange: (Int) -> Unit
-) {
+    donateViewModel: DonateViewModel = hiltViewModel(),
+    reportViewModel: ReportViewModel = hiltViewModel(),
+    onTotalDonatedChange: (Int) -> Unit)
+{
+    val donations = reportViewModel.uiDonations.collectAsState().value
     var totalDonated = donations.sumOf { it.paymentAmount }
     val context = LocalContext.current
     val message = stringResource(R.string.limitExceeded,donation.paymentAmount)
@@ -52,7 +58,7 @@ fun DonateButton(
                 if(totalDonated + donation.paymentAmount <= 10000) {
                     totalDonated+=donation.paymentAmount
                     onTotalDonatedChange(totalDonated)
-                    donations.add(donation)
+                    donateViewModel.insert(donation)
                     Timber.i("Donation info : $donation")
                     Timber.i("Donation List info : ${donations.toList()}")
                 }
@@ -103,10 +109,73 @@ fun DonateButton(
 @Composable
 fun DonateButtonPreview() {
     DonationXTheme {
-        DonateButton(
+        PreviewDonateButton(
             Modifier,
             DonationModel(),
             donations = fakeDonations.toMutableStateList()
         ) {}
+    }
+}
+
+@Composable
+fun PreviewDonateButton(
+    modifier: Modifier = Modifier,
+    donation: DonationModel,
+    donations: SnapshotStateList<DonationModel>,
+    onTotalDonatedChange: (Int) -> Unit
+) {
+
+    var totalDonated = donations.sumOf { it.paymentAmount }
+    val context = LocalContext.current
+    val message = stringResource(R.string.limitExceeded,donation.paymentAmount)
+
+    Row {
+        Button(
+            onClick = {
+                if(totalDonated + donation.paymentAmount <= 10000) {
+                    totalDonated+=donation.paymentAmount
+                    onTotalDonatedChange(totalDonated)
+                    donations.add(donation)
+                    Timber.i("Donation info : $donation")
+                    Timber.i("Donation List info : ${donations.toList()}")
+                }
+                else
+                    Toast.makeText(context,message,
+                        Toast.LENGTH_SHORT).show()
+            },
+            elevation = ButtonDefaults.buttonElevation(20.dp)
+        ) {
+            Icon(Icons.Default.Add, contentDescription = "Donate")
+            Spacer(modifier.width(width = 4.dp))
+            Text(
+                text = stringResource(R.string.donateButton),
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                color = Color.White
+            )
+        }
+        Spacer(modifier.weight(1f))
+        Text(
+            buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = Color.Black
+                    )
+                ) {
+                    append(stringResource(R.string.total) + " €")
+                }
+
+
+                withStyle(
+                    style = SpanStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colorScheme.secondary)
+                ) {
+                    append(totalDonated.toString())
+                }
+            })
     }
 }

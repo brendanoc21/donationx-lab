@@ -9,16 +9,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ie.setu.donationx.data.DonationModel
-import ie.setu.donationx.ui.screens.ScreenAbout
-import ie.setu.donationx.ui.screens.ScreenDonate
-import ie.setu.donationx.ui.screens.ScreenReport
+import ie.setu.donationx.ui.screens.about.AboutScreen
+import ie.setu.donationx.ui.screens.details.DetailsScreen
+import ie.setu.donationx.ui.screens.donate.DonateScreen
+import ie.setu.donationx.ui.screens.report.ReportScreen
 
 @Composable
 fun NavHostProvider(
     modifier: Modifier,
     navController: NavHostController,
-    paddingValues: PaddingValues,
-    donations: SnapshotStateList<DonationModel>
+    paddingValues: PaddingValues
 ) {
     NavHost(
         navController = navController,
@@ -27,15 +27,35 @@ fun NavHostProvider(
 
         composable(route = Donate.route) {
             //call our 'Donate' Screen Here
-            ScreenDonate(modifier = modifier,donations = donations)
+            DonateScreen(modifier = modifier)
         }
         composable(route = Report.route) {
             //call our 'Report' Screen Here
-            ScreenReport(modifier = modifier, donations = donations)
+            ReportScreen(modifier = modifier,
+                onClickDonationDetails = {
+                        donationId : Int ->
+                    navController.navigateToDonationDetails(donationId)
+                },
+            )
         }
         composable(route = About.route) {
             //call our 'About' Screen Here
-            ScreenAbout(modifier = modifier)
+            AboutScreen(modifier = modifier)
         }
+        composable(
+            route = Details.route,
+            arguments = Details.arguments
+        )
+        { navBackStackEntry ->
+            val id = navBackStackEntry.arguments?.getInt(Details.idArg)
+            if (id != null) {
+                DetailsScreen()
+            }
+        }
+
     }
+}
+
+private fun NavHostController.navigateToDonationDetails(donationId: Int) {
+    this.navigate("details/$donationId")
 }

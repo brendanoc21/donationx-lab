@@ -3,7 +3,6 @@ package ie.setu.donationx.ui.components.report
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,8 +15,10 @@ import java.text.DateFormat
 
 @Composable
 internal fun DonationCardList(
-    donations: SnapshotStateList<DonationModel>,
-    modifier: Modifier = Modifier
+    donations: List<DonationModel>,
+    modifier: Modifier = Modifier,
+    onDeleteDonation: (DonationModel) -> Unit,
+    onClickDonationDetails: (Int) -> Unit
 ) {
     LazyColumn {
         items(
@@ -29,6 +30,8 @@ internal fun DonationCardList(
                 paymentAmount = donation.paymentAmount,
                 message = donation.message,
                 dateCreated = DateFormat.getDateTimeInstance().format(donation.dateDonated),
+                onClickDelete = { onDeleteDonation(donation) },
+                onClickDonationDetails = { onClickDonationDetails(donation.id) }
             )
         }
     }
@@ -40,6 +43,10 @@ internal fun DonationCardList(
 @Composable
 fun DonationCardListPreview() {
     DonationXTheme {
-        DonationCardList(fakeDonations.toMutableStateList())
+        DonationCardList(
+            fakeDonations.toMutableStateList(),
+            onDeleteDonation = {},
+            onClickDonationDetails = { },
+        )
     }
 }

@@ -1,4 +1,4 @@
-package ie.setu.donationx.ui.screens
+package ie.setu.donationx.ui.screens.about
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +24,7 @@ import ie.setu.donationx.ui.components.general.Centre
 import ie.setu.donationx.ui.theme.DonationXTheme
 
 @Composable
-fun ScreenAbout(modifier: Modifier = Modifier) {
+fun AboutScreen(modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.secondary),
@@ -55,6 +55,6 @@ fun ScreenAbout(modifier: Modifier = Modifier) {
 @Composable
 fun AboutScreenPreview() {
     DonationXTheme {
-        ScreenAbout( modifier = Modifier)
+        AboutScreen( modifier = Modifier)
     }
 }

@@ -1,14 +1,20 @@
 package ie.setu.donationx.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.Date
 import kotlin.random.Random
 
-data class DonationModel(val id: Int = Random.nextInt(1, 100000),
-                         val paymentType: String = "N/A",
-                         val paymentAmount: Int = 0,
-                         val message: String = "Go Homer!",
-                         val dateDonated: Date = Date()
+@Entity
+data class DonationModel(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val paymentType: String = "N/A",
+    val paymentAmount: Int = 0,
+    var message: String = "Go Homer!",
+    val dateDonated: Date = Date()
 )
+
 
 val fakeDonations = List(30) { i ->
     DonationModel(id = 12345 + i,
