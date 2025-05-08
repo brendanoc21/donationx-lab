@@ -1,19 +1,19 @@
 [versions]
-agp = "8.9.2"
+agp = "8.9.0"
 kotlin = "2.0.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.0"
-composeBom = "2024.04.01"
+activityCompose = "1.10.1"
+composeBom = "2025.03.00"
 numberPicker = "1.0.3"
 compose-plugin = "1.8.0-alpha01"
 timber = "5.0.1"
-materialIconsExtended = "1.7.7"
+materialIconsExtended = "1.7.8"
 protoliteWellKnownTypes = "18.0.0"
-navigationCompose = "2.8.6"
+navigationCompose = "2.8.9"
 #V3
 hiltAndroid = "2.52"
 hiltAndroidCompiler = "2.52"
@@ -63,7 +63,6 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
